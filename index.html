@@ -1,11 +1,332 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <title>Magical Forest</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component/dist/aframe-event-set-component.min.js"></script>
+    
+    <script>
+        AFRAME.registerComponent('click-handler', {
+            init: function () {
+                // สร้างพื้นหลังสีขาว
+                this.background = document.createElement('a-plane');
+                this.background.setAttribute('width', '13');
+                this.background.setAttribute('height', '16');
+                this.background.setAttribute('color', 'white');
+                this.background.setAttribute('position', '2 3 -5');
+                this.background.setAttribute('visible', false);
+
+                // สร้าง text entity
+                // สร้าง text entity
+                this.textEntity = document.createElement('a-text');
+                this.textEntity.setAttribute(
+                'value',
+                'Welcome, adventurer, \nto the Magical Forest of Knowledge! \nStep into a world where \nmysteries unfold'
+                );
+                this.textEntity.setAttribute('line-height', '250'); // ค่าเป็นเปอร์เซ็นต์ของขนาดตัวอักษร
+                this.textEntity.setAttribute('color', 'black');  // เปลี่ยนเป็นสีดำเพื่อให้เห็นข้อความได้ชัดเจน
+                this.textEntity.setAttribute('align', 'center');
+                this.textEntity.setAttribute('width', '16');
+                this.textEntity.setAttribute('position', '2 6 -5');
+                this.textEntity.setAttribute('visible', false);
+                this.textEntity.setAttribute('font', 'mozillavr');
+                // this.textEntity.setAttribute('font-size', '20');  
+
+                // เพิ่มพื้นหลังและข้อความในฉาก
+                this.el.sceneEl.appendChild(this.background);
+                this.el.sceneEl.appendChild(this.textEntity);
+
+                // สร้าง timer variable
+                this.messageTimer = null;
+
+                // ใช้ click event เพียงอย่างเดียว
+                this.el.addEventListener('click', (evt) => {
+                    this.showMessage();
+                });
+            },
+
+            showMessage: function() {
+                // ยกเลิก timer เก่า (ถ้ามี)
+                if (this.messageTimer) {
+                    clearTimeout(this.messageTimer);
+                }
+
+                // แสดงข้อความและพื้นหลัง
+                this.background.setAttribute('visible', true);
+                this.textEntity.setAttribute('visible', true);  
+
+                // ตั้ง timer ใหม่
+                this.messageTimer = setTimeout(() => {
+                    this.textEntity.setAttribute('visible', false);
+                    this.background.setAttribute('visible', false);  // ซ่อนพื้นหลังเมื่อข้อความหายไป
+                }, 3000);
+            },
+
+            remove: function() {
+                // ทำความสะอาดเมื่อ component ถูกลบ
+                if (this.messageTimer) {
+                    clearTimeout(this.messageTimer);
+                }
+                if (this.textEntity && this.textEntity.parentNode) {
+                    this.textEntity.parentNode.removeChild(this.textEntity);
+                }
+                if (this.background && this.background.parentNode) {
+                    this.background.parentNode.removeChild(this.background);
+                }
+            }
+        });
+    </script>
 </head>
 <body>
-    <h1>Hello world</h1>
+    <a-scene>
+        <a-assets>
+            <img id="sky" src="image/M4.jpg">
+            <a-asset-item id="tree" src="image/Tree.glb"></a-asset-item>
+            <a-asset-item id="woodenign" src="image/WoodenSign.glb"></a-asset-item>
+            <!-- <a-asset-item id="sakura-bonsai" src="image/Parchament Open.glb"></a-asset-item> -->
+            <a-asset-item id="EvilBook" src="image/EvilBook.glb"></a-asset-item>
+            <a-asset-item id="BookOpen" src="image/BookOpen.glb"></a-asset-item>
+            <a-asset-item id="Book" src="image/Book.glb"></a-asset-item>
+            <a-asset-item id="Bat" src="image/Bat.glb"></a-asset-item>   
+            <a-asset-item id="Scroll" src="image/Scroll.glb"></a-asset-item>     
+            <a-asset-item id="paper1" src="image/02_paper.glb"></a-asset-item>   
+            <a-asset-item id="EvilWizard" src="image/EvilWizard.glb"></a-asset-item>   
+            <a-asset-item id="Skeleton" src="image/SkeletonMage.glb"></a-asset-item>
+            <a-asset-item id="ChibiWitch" src="image/ChibiWitch.glb"></a-asset-item>
+            <a-asset-item id="Bird2" src="image/Bird (1).glb"></a-asset-item>
+            <a-asset-item id="Broom" src="image/Broom Set.glb"></a-asset-item>
+            <a-asset-item id="Wizard" src="image/Wizard hat.glb"></a-asset-item>
+            <a-asset-item id="Staff" src="image/Staff.glb"></a-asset-item>
+            <a-asset-item id="Hummingbird" src="image/Hummingbird.glb"></a-asset-item>
+        </a-assets>
+
+        <a-sky src="#sky"></a-sky>
+
+        <a-entity 
+        gltf-model="#woodenign" 
+        position="-60 -60 -150" 
+        rotation="0 30 0"     
+        scale="40 40 40 ">
+        </a-entity>
+
+        <!-- พื้นหลัง -->
+        <a-plane
+            rotation="0 29 0" 
+            position="-58 10 -149" 
+            width="50"
+            height="26"
+            color="#ffffff">
+        </a-plane>
+        
+        <!-- ข้อความ -->
+        <a-text 
+            value="Experiment with ingredients and create potions that can heal, enhance, or transform."
+            position="-58 10 -148" 
+            rotation="0 29 0" 
+            color="#000000"
+            width="50"  
+            align="center">
+        </a-text>
+
+        <a-entity 
+        gltf-model="#EvilBook" 
+        position="350 -10 -80"   
+        scale="30 30 30"
+        animation="property: rotation; to: 0 360 0; dur: 5000; loop: true">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#BookOpen" 
+        position="150 -20 -300"
+        rotation="50 0 0"   
+        scale="70 70 70">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Book" 
+        position="85 -20 -250"   
+        rotation="0 -80 0"   
+        scale="40 40 40">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Scroll" 
+        position="180 10 10"   
+        rotation="0 -160 0" 
+        scale="90 90 90">
+        </a-entity>
+            
+        <!-- โมเดล -->
+        <a-entity 
+        gltf-model="#paper1" 
+        position="10 10 -200"   
+        rotation="90 50 0" 
+        scale="40 40 40">
+        </a-entity>
+        
+        <!-- พื้นหลัง -->
+        <a-plane
+            rotation="0 50 0" 
+            position="11 12 -200" 
+            width="60"
+            height="80"
+            color="#ffffff">
+        </a-plane>
+        
+        <!-- ข้อความ -->
+        <a-text 
+        value="1. The Enchanted Library: \nDiscover magical texts and\n spellcasting secrets.\n  
+        2. The Potion Workshop:\n Learn potion-making with\n hands-on experiments.\n  
+        3. The Whispering Woods:\n Hear enchanted stories\n from the magical forest."        
+            position="11 18 -199.5" 
+            rotation="0 50 0" 
+            color="#000000"
+            width="100"  
+            align="center">
+        </a-text>
+
+        <!-- โมเดล -->
+        <a-entity 
+        gltf-model="#paper1" 
+        position="-150 10 -100"   
+        rotation="90 50 0" 
+        scale="40 40 40">
+        </a-entity>
+        
+        <!-- พื้นหลัง -->
+        <a-plane
+            rotation="0 50 0" 
+            position="-145 12 -97" 
+            width="60"
+            height="80"
+            color="#ffffff">
+        </a-plane>
+        
+        <!-- ข้อความ -->
+        <a-text 
+        value="1. The Crystal Cavern \n
+        Explore shimmering crystals \n and their magical \n properties hidden deep \n underground. \n
+        2. The Mystic Observatory \n
+        Gaze into the stars and learn \n about celestial magic \n and ancient constellations. \n"
+            position="-144 20 -96.5" 
+            rotation="0 50 0" 
+            color="#000000"
+            width="100"  
+            align="center">
+        </a-text>
+
+
+        <a-entity 
+        gltf-model="#EvilWizard" 
+        position="350 -50 -300"   
+        rotation="0 -45 0" 
+        scale="10 10 10">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Skeleton" 
+        position="-20  20 -50"   
+        rotation="20 20 0" 
+        scale="10 10 10">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#ChibiWitch" 
+        position="-200  20 -40"   
+        rotation="20 60 0" 
+        scale="10 10 10">
+        </a-entity>
+
+        <a-entity 
+            gltf-model="#Bat" 
+            position="190 150 -250"
+            rotation="40 -60 0" 
+            scale="0.1 0.1 0.1"
+            animation__rotation="property: rotation; to: 0 360 0; loop: true; dur: 10000; delay: 0"
+            animation__movement="property: position; to: -400 100 -200; dir: alternate; loop: true; dur: 5000; delay: 0">
+        </a-entity>
+
+        <a-entity 
+            gltf-model="#Bird2" 
+            position="150 100 -50"
+            rotation="40 -60 0" 
+            scale="0.1 0.1 0.1"
+            animation__rotation="property: rotation; to: 90 360 0; loop: true; dur: 7000; delay: 2500"
+            animation__movement="property: position; to: -400 100 -200; dir: alternate; loop: true; dur: 5000; delay: 2500">
+        </a-entity>
+        <a-entity 
+    gltf-model="#Hummingbird" 
+    position="-100 100 -50"
+    rotation="40 -60 0" 
+    scale="20 20 20"
+    animation__rotation="property: rotation; to: 90 360 0; loop: true; dur: 10000; delay: 3000"
+    animation__movement="property: position; to: -100 100 -500; dir: alternate; loop: true; dur: 15000; delay: 3000">
+</a-entity>
+        <a-entity 
+        gltf-model="#tree" 
+        position="-400 -60 80"
+        scale="1.5 1.5 1.5"
+        animation="property: rotation; to: 0 360 0; dur: 10000; loop: true">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Broom" 
+        position="100 -20 150"
+        rotation="0 30 0"   
+        scale="50 50 50">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Wizard" 
+        position="-1 70 -280"
+        rotation="0 30 0"   
+        scale="20 20 20">
+        </a-entity>
+
+        <a-entity 
+        gltf-model="#Staff" 
+        position="50 70 -280"
+        rotation="0 30 0"   
+        scale="50 50 50">
+        </a-entity>
+
+        <a-entity 
+            gltf-model="#sakura-bonsai" 
+            geometry="primitive: box; width: 2; height: 2; depth: 2"
+            material="opacity: 0"
+            position="2 2 -5" 
+            scale="2 2 2 "
+            id="sakura-bonsai"
+            class="clickable"
+            click-handler
+            animation__hover="property: scale; to: 1.2 1.2 1.2; startEvents: mouseenter; dur: 200"
+            animation__leave="property: scale; to: 1 1 1; startEvents: mouseleave; dur: 200">
+        </a-entity>
+
+        <a-sound 
+            src="image/Where Secrets Slumber - Orchestral⧸Fantasy Music.mp3" 
+            autoplay="true" 
+            loop="true" 
+            volume="2"
+            position="0 2 -5">
+        </a-sound>
+
+        <!-- ปรับปรุง camera setup -->
+        <a-entity position="0 1.6 20">
+            <a-camera look-controls wasd-controls="speed:100000">
+                <a-entity
+                    cursor="rayOrigin: mouse"
+                    raycaster="objects: .clickable; far: 100"
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    material="color: white; shader: flat"
+                    scale="0.5 0.5 0.5"
+                    animation__click="property: scale; from: 0.5 0.5 0.5; to: 0.1 0.1 0.1; dur: 150; startEvents: click"
+                    animation__clickback="property: scale; to: 0.5 0.5 0.5; dur: 150; startEvents: clickback">
+                </a-entity>
+            </a-camera>
+        </a-entity>  
+    </a-scene>
 </body>
 </html>
